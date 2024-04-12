@@ -55,8 +55,7 @@ export default function App(){
     <View>
       <View style={style.result}>
         <TouchableOpacity style={style.themeButton}>
-          <Entypo name={darkMode ? 'light-up' : 'moon'} size={24} color={darkMode ? 'white' : 'black'} onPress ={()
-            => darkMode ? setDarkmode(false) : setDarkmode(true)}/>
+          <Entypo name={darkMode ? 'light-up' : 'moon'} size={24} color={darkMode ? 'white' : 'black'} onPress ={() => darkMode ? setDarkmode(false) : setDarkmode(true)}/>
         </TouchableOpacity>
         <Text style={style.historyText}>{lastNumber}</Text>
         <Text style={style.resultText}>{currentNumber}</Text>
@@ -64,14 +63,25 @@ export default function App(){
       <View style={style.buttons}>
         {buttons.map((buttons) =>
       button === '=' || button === '/' || button === '*' || button === '-' || button === '+' ?
-    <TouchableOpacity key={button} style={[style.button, {backgroundColor: '#00b9d6'}]}onPress={()
-    => handleInput(button)}>
+    <TouchableOpacity key={button} style={[style.button, {backgroundColor: '#00b9d6'}]} onPress={() => handleInput(button)}>
       <Text style={[style.textButton, {color:'whtie', fontSize:28 }]}>{button}</Text>
     </TouchableOpacity>
+    :
+    button ==='.' || button ==='DEL'?
+    <TouchableOpacity key={button}style={[style.button,{backgroundColor:button === '.'?
+  darkMode ? '#303946':'fff': darkMode === true ? '#414853' : '#ededed', minWidth: '37%'}]}
+  onPress={()=> handleInput(button)}>
+    <Text style={style.textButton}>{button}</Text>
+  </TouchableOpacity>
+  :
+  <TouchableOpacity key={button} style={[style.button, {backgroundColor:typeof(button) === 'number'?
+  darkMode ? '#303946' : 'fff' : darkMode === true ? '#414853' : '#ededed' }]} onPress={() => handleInput(button)}>
+    <Text style={ style.textButton}>{button}</Text>
+  </TouchableOpacity>
+        )}
      </View>
     </View>
-  ));
-}
+  )
 const style = StyleSheet.create({
   result:{
     backgroundColor: darkMode ? '#282f3b' : '#f5f5f5',
@@ -125,3 +135,4 @@ const style = StyleSheet.create({
     fontSize:28,
   }
 })
+}

@@ -1,103 +1,148 @@
-import React  from "react";
-import { SafeAreaView, SectionList,Text, StyleSheet, View } from "react-native";
+import React from "react";
+import { StyleSheet,Text,View,TouchableOpacity,Vibration } from "react-native";
+import { useState } from "react";
+import {Entypo} from '@expo/vector-icons'
 
-const styles = StyleSheet.create({
-  row:{
-    paddingHorizontal:10,
-    paddingVertical:10,
-  },
-  name:{
-    fontSize:16,
-  },
-  separator:{
-    backgroundColor:"rgba(0, 0, 0, 0.1)",
-    height:1,
-  },
-  sectionHeader:{
-    paddingHorizontal:10,
-    paddingVertical:10,
-    backgroundColor:"rgba(170, 170, 170)",
-  },
-});
 
-const groupPeopleByLastName =(_data) =>{
-  const data =[..._data];
-  const groupedData =data.reduce((accumulator, item)=>{
-    const group = item.name.last[0].toUpperCase();
-    if(accumulator[group]){
-    accumulator[group].data.push(item);
-
+export default function App(){
+  const style = StyleSheet.create({
+    result:{
+      backgroundColor: darkMode ? '#282f3b' : '#f5f5f5',
+      maxWidth:'100%',
+      maxHeight:'100%',
+      alignItems:'flex-end',
+      justifyContent:'flex-end',
+  
+    },
+    resultText:{
+      maxHeight:20,
+      color:'#00b9d6',
+      margin:15,
+      fontSize:20,
+    },
+    historyText:{
+      color : darkMode ? '#B5B7BB' : '@7c7c7c',
+      fontSize:20,
+      marginRight:20,
+      alignSelf:'flex-end',
+  
+    },
+    themeButton:{
+      alignSelf:'flex-start',
+      bottom:'5%',
+      margin:15,
+      backgroundColor: darkMode ? '#7b8040' : '#e5e5e5',
+      alignItems: 'center',
+      justifyContent:'center',
+      width:50,
+      height:50,
+      borderRadius:25,
+  
+    },
+    buttons:{
+      width:'100%',
+      height:'35%',
+      flexDirection:'row',
+      flexWrap: 'wrap'
+    },
+    button:{
+      borderColor:darkMode ? '#3f4d5b' : '#e5e5e5',
+      alignItems:'center',
+      justifyContent:'center',
+      minWidth:'22%',
+      minHeight:'30%',
+      flex:1,
+      borderRadius:10,
+  
+    },
+    textButton:{
+      color: darkMode ? '#b5b7bb' : '#7c7c7c',
+      fontSize:20,
+    }
+  })
+  const [darkMode, setDarkmode] =useState(false);
+  const [currentNumber, setCurrentNumber] = useState('');
+  const [lastNumber, setLastNumber] = useState('');
+  const buttons =['C', 'DEL', '/', 7, 8, 9, '*', 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', '=']
+  function calculator(){
+    let lastArr = currentNumber[currentNumber.length-1];
+    if(lastArr === '/' || lastArr === '*' || lastArr === '-' || lastArr === '+' || lastArr === '.'){
+      setCurrentNumber(currentNumber)
+      return
     }
     else{
-      accumulator[group]={
-        title:group,
-        data:[item],
-      };
+      let result = eval(currentNumber).toString();
+      setCurrentNumber(result)
+      return
     }
-    return accumulator;
-  }, {} );
-  const sections = Object.keys(groupedData).map((key)=>{
-    return groupedData[key];
-  });
-  return sections.sort((a, b)=>{
-    if (a.title > b.title){
-      return 1;
+  }
+  function handleInput(buttonPressed){
+    if(buttonPressed === '+' || buttonPressed === '-' || buttonPressed === '*' || buttonPressed ==='/'){
+      Vibration.vibrate(35);
+      setCurrentNumber(currentNumber + buttonPressed)
+      return
     }
-    return -1;
-  });
-};
-
-export default () =>{
+    else if(buttonPressed === 1 || buttonPressed ===2 || buttonPressed ===3 ||buttonPressed === 4
+        || buttonPressed === 5 || buttonPressed === 6 || buttonPressed === 7|| buttonPressed === 8
+      || buttonPressed === 9 || buttonPressed === 0 || buttonPressed === '.'){
+        Vibration.vibrate(35);
+      }
+      switch(buttonPressed){
+        case 'DEL':
+          Vibration.vibrate(35);
+          setCurrentNumber(currentNumber.substring(0, (currentNumber.length -1)))
+          return
+        case 'C':
+          Vibration.vibrate(35);
+          setLastNumber('')
+          setCurrentNumber('')
+          return
+        case '=':
+          Vibration.vibrate(35);
+          setLastNumber(currentNumber + '=')
+          calculator()
+          return
+      }
+      setCurrentNumber(currentNumber + buttonPressed)
+      
+  }
   return(
-    <SafeAreaView>
-      <SectionList sections={groupPeopleByLastName(PEOPLE)}
-      keyExtractor={(item)=>`${item.name.first}-${item.name.last}`}
-      renderSectionHeader={({section})=>{
-        return(
-          <View style={styles.sectionHeader}>
-            <Text>{section.title}</Text>
-          </View>
-        );
-      }}
-      renderItem={({item})=>{
-    return(
-      <View style={styles.row}>
-        <Text style={styles.name}>
-          {
-            item.name.first
-          }
-          {
-            item.name.last
-          }
-        </Text>
+    <View>
+      <View style={style.result}>
+        <TouchableOpacity style={style.themeButton}>
+          <Entypo name={darkMode ? 'light-up' : 'moon'} size={24} color={darkMode ? 'white' : 'black'} onPress ={() => darkMode ? setDarkmode(false) : setDarkmode(true)}/>
+        </TouchableOpacity>
+        <Text style={style.historyText}>{lastNumber}</Text>
+        <Text style={style.resultText}>{currentNumber}</Text>
       </View>
-    );
-    }}
-    ItemSeparatorComponent={()=> <View style={styles.separator}/>}
-    />
-    </SafeAreaView>
-  );
-};
-const PEOPLE=[
-  {
-    name:{
-      title:"Ms",
-      first:"Maeva",
-      last:"Scott"
-    },
-  },
-  {
-    name:{
-      title:"Ms",
-      first:"Maelle",
-      last:"Henry"
-    },
-  },
-  {
-    name:{
-      title:"Mr",
-      first:"Mohamoud",
-      last:"Faaij",
-    },
-  },
-];
+      <View style={style.buttons}>
+        {buttons.map((button) =>
+      button === '=' || button === '/' || button === '*' || button === '-' || button === '+' ?
+    <TouchableOpacity key={button} style={[style.button, {backgroundColor: '#00b9d6'}]} onPress={() => handleInput(button)}>
+      <Text style={[style.textButton, {color:'whtie', fontSize:28 }]}>{button}</Text>
+    </TouchableOpacity>
+    :
+    button ==='.' || button ==='DEL'?
+    <TouchableOpacity key={button}style={[style.button,{backgroundColor:button === '.'?
+  darkMode ? '#303946':'fff': darkMode === true ? '#414853' : '#ededed', minWidth: '37%'}]}
+  onPress={()=> handleInput(button)}>
+    <Text style={style.textButton}>{button}</Text>
+  </TouchableOpacity>
+  :
+  button === 'C' ?
+  <TouchableOpacity key={button}style={[style.button,{backgroundColor:typeof(button) === 'number'?
+  darkMode ? '#303946':'fff': darkMode === true ? '#414853' : '#ededed', minWidth: '36%'}]}
+  onPress={()=> handleInput(button)}>
+    <Text style={style.textButton}>{button}</Text>
+    </TouchableOpacity>
+  :
+  <TouchableOpacity key={button} style={[style.button, {backgroundColor:typeof(button) === 'number'?
+  darkMode ? '#303946' : 'fff' : darkMode === true ? '#414853' : '#ededed' }]} onPress={() => handleInput(button)}>
+    <Text style={ style.textButton}>{button}</Text>
+  </TouchableOpacity>
+        )}
+     </View>
+    </View>
+  )
+  
+}
