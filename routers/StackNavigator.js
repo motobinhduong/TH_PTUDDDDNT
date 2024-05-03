@@ -8,7 +8,11 @@ const StackNavigator =()=>{
     
     return(
         <Stack.Navigator>
-            <Stack.Screen name="Contacts" component={Contacts}/>
+            <Stack.Screen name="Contacts" component={Contacts}
+            options={{
+                headerTitleAlign:"center",
+
+            }}/>
             <Stack.Screen name="Profile" component={Profile}/>
             <Stack.Screen name="Favorites" component={Favorites}/>
         </Stack.Navigator>

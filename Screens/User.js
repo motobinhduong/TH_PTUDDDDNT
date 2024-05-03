@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { View } from "react-native";
-import { Avatar,Text } from "react-native-paper";
+import { Avatar,Button,Text } from "react-native-paper";
 import {  fetchUserContacts } from "../utility/Api";
 
-const User =()=>{
+const User =({navigation})=>{
     const [User, setUser] = useState([])
     const [loading, setLoading] = useState(true)
     useEffect(()=>{
@@ -16,6 +16,12 @@ const User =()=>{
         .catch(e => console.log(e))
     },[])
     const{name, avatar, phone} =User
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            headerRight:(props) => <Button icon={"home"} onPress={()=> navigation.navigate("Options")}/>
+
+        })
+    },[])
     return(
         <View style={{
             flex:1,

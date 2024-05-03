@@ -15,7 +15,8 @@ const BottomTabNavigator =()=>{
             
             <Tab.Screen name="Contacts" component={StackNavigator}
             options={{
-                tabBarIcon:"format-list-bulleted"
+                tabBarIcon:"format-list-bulleted",
+                
             }}/>
             <Tab.Screen name="Favorites" component={Favorites}
             options={{
