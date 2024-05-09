@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { View ,Image, Text} from "react-native";
 import { Button, HelperText, TextInput } from "react-native-paper";
-import { useMyContextProvider } from "../store";
+//import { useMyContextProvider } from "../store";
 
-const Login =(navigation)=>{
+const Login =({navigation})=>{
 
 //const [controller, dispatch] = useMyContextProvider()
 const [ email, setEmail] = useState("")
@@ -53,11 +53,12 @@ return(
             <Text>
                 Don't have an account
             </Text>
-            <Button onPress={()=> navigation.navigate("Register")}>
+            <Button onPress={()=> navigation.navigate("Register")}
+            >
                 Sign up
             </Button>
         </View>
     </View>
 )
 }
-export default Login
+export default Login;

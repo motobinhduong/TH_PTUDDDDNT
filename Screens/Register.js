@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { View ,Image, Text} from "react-native";
-import { Button, HelperText, TextInput } from "react-native-paper";
-import { createAccount } from "../store";
+import { Button, TextInput } from "react-native-paper";
+//import { createAccount } from "../store";
 
-const Register =(navigation)=>{
+const Register =({navigation})=>{
 
 
 const [ email, setEmail] = useState("")
 const [password, setPassword] = useState("")
 const [fullname, setFullname] = useState("")
 const [ confirmpassword, setConfirmpassword] = useState("")
-// const handleCreateAccout =()=>{
-//     createAccount(email, password, fullname)
-// }
+const handleCreateAccout =()=>{
+    createAccount(email, password, fullname)
+}
 return(
     <View style={{flex:1, justifyContent:"center"}}>
         <Image
@@ -43,7 +43,7 @@ return(
         secureTextEntry
         placeholder="Nhap lai mat khau" />
         <Button mode="contained" buttonColor="red"
-        // onPress={handleCreateAccout}
+         onPress={handleCreateAccout}
         >
             Create Account
         </Button>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "213135609993",
+    "project_id": "reactnative-b631e",
+    "storage_bucket": "reactnative-b631e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213135609993:android:d287fa78d6ee5cee763658",
+        "android_client_info": {
+          "package_name": "com.anonymous.Expo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCquhqzUf0PMnMg8-parX7lNNBNYC6EaSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
